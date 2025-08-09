@@ -1,7 +1,7 @@
 import { InsertRecipe, UpdateRecipe } from "@/types/recipe_types"
 
-export async function getRecipes() {
-  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/recipes/`)
+export async function getRecipes(id: string) {
+  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/recipes/user/${id}`)
   if (!response.ok) {
     throw new Error("Failed to fetch recipes")
   }

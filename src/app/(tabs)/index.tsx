@@ -10,9 +10,25 @@ import {
 } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import Entypo from "@expo/vector-icons/Entypo"
-import { Link } from "expo-router"
+import { Link, router } from "expo-router"
+
+import { MMKV } from 'react-native-mmkv'
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { useEffect } from "react"
+import { storage } from "@/utils/storage"
 
 export default function HomeScreen() {
+
+  useEffect(() => {
+    const user = storage.getString('user'); // MMKV's getString returns undefined if key doesn't exist
+    if (!user) {
+      console.log("User not found in storage, redirecting to sign_in.");
+      router.replace('/my_recipes');
+    } else {
+      console.log("User found in storage:", user);
+    }
+  }, []);
+  
   return (
     <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
       <Text
@@ -32,7 +48,7 @@ export default function HomeScreen() {
           </Text>
         </Pressable>
       </Link>
-      <Link href="/sign_in" asChild>
+      <Link href="/my_recipes" asChild>
         <Pressable style={{ alignItems: "center", gap: 5, marginTop: 10 }}>
           <Text style={{ color: "#FF8C00", fontSize: 16, fontWeight: "600" }}>
             Sign In

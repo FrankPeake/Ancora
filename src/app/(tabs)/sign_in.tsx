@@ -6,9 +6,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {AuthContext} from '../AuthContext';
 import { useQuery } from "@tanstack/react-query"
 import { getUserById } from "@/services/user_service"
-// import { MMKV } from 'react-native-mmkv'
+import { storage } from "@/utils/storage"
 
-// export const storage = new MMKV()
+const userString = storage.getString("user")
+const userObject = userString ? JSON.parse(userString) : null
+
 
 export default function SignIn() {
   const [googleToken, setGoogleToken] = useState('')
@@ -17,7 +19,7 @@ export default function SignIn() {
 
   useEffect(() => {
     GoogleSignin.configure({
-        webClientId: process.env.WEB_CLIENT_ID, 
+        webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID, 
     })
   }, [])
 
@@ -27,26 +29,30 @@ export default function SignIn() {
     queryFn: () => getUserById(googleToken),
     enabled: isEnabled && !!googleToken,
   })
+  const getStorageData = async () => {
+    const userData = storage.getString("user")
+    console.log("user data: ", userObject.id)
+  }
 
   if (isLoading) {
       return <ActivityIndicator size={"large"} style={{ marginTop: "20%" }} />
   } else if (isSuccess) {
-      console.log("User data fetched successfully:", data)
+      storage.set("user", JSON.stringify(data))
+      getStorageData()
   } else if (error) {
-      console.error("Error fetching user data:", error)
   }
+
+  
 
   // -- handle Google Sign-In --
   const handleGoogleSignIn = async () => {
     try{
         setIsSubmitting(true)
-        console.log(process.env.EXPO_PUBLIC_API_URL)
+        console.log(process.env.EXPO_PUBLIC_WEB_CLIENT_ID)
         await GoogleSignin.hasPlayServices()
         const response = await GoogleSignin.signIn()
         if (isSuccessResponse(response)) {
-          console.log("Google Sign-In response:", response)
           const {idToken} = response.data
-          console.log("Google Sign-In successful:", idToken)
           if (idToken) {
             setGoogleToken(idToken)
             setIsEnabled(true)

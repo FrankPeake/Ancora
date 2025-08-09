@@ -5,7 +5,7 @@ import {
   RecipeInstruction,
 } from "@/types/recipe_types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Stack, router, useLocalSearchParams } from "expo-router"
+import { Stack, Tabs, router, useLocalSearchParams } from "expo-router"
 import { useCallback, useEffect, useState } from "react"
 import {
   View,
@@ -28,6 +28,7 @@ import {
 } from "@/services/recipe_service"
 import IngredientListItem from "@/components/ingredient_list_item"
 import EditInstructionListItem from "@/components/edit_instruction_list_item"
+import { storage } from "@/utils/storage"
 
 export default function CreateUpdateRecipe() {
   const { id } = useLocalSearchParams<{ id: string }>() // Get the recipe ID from the URL if it exists
@@ -253,7 +254,7 @@ export default function CreateUpdateRecipe() {
 
   return (
     <>
-      <Stack.Screen
+      <Tabs.Screen
         options={{
           title: "Create or Update Recipe",
           headerRight: () => (

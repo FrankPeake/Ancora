@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Stack, router, useLocalSearchParams } from "expo-router"
+import { Stack, Tabs, router, useLocalSearchParams } from "expo-router"
 import { useEffect, useState } from "react"
 import {
   View,
@@ -69,7 +69,7 @@ export default function ViewRecipe() {
   }
   return (
     <>
-      <Stack.Screen
+      <Tabs.Screen
         options={{
           title: title,
           headerRight: () => (

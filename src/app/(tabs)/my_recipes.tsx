@@ -11,11 +11,14 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context"
 import Entypo from "@expo/vector-icons/Entypo"
 import { Link } from "expo-router"
+import { storage } from "@/utils/storage"
 
 export default function MyRecipes() {
+  const userString = storage.getString("user")
+  const userObject = userString ? JSON.parse(userString) : null
   const { data, isLoading, error } = useQuery({
     queryKey: ["recipes"],
-    queryFn: () => getRecipes(),
+    queryFn: () => getRecipes(storage.getString("user") ? userObject.id : ""),
   })
   if (isLoading) {
     return <ActivityIndicator size={"large"} style={{ marginTop: "20%" }} />

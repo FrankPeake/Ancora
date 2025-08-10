@@ -1,19 +1,10 @@
-import { useQuery } from "@tanstack/react-query"
-import { getRecipes } from "@/services/recipe_service"
-import RecipeListItem from "@/components/recipe_list_item"
 import {
-  View,
   Text,
-  ActivityIndicator,
-  FlatList,
   Pressable,
 } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
-import Entypo from "@expo/vector-icons/Entypo"
 import { Link, router } from "expo-router"
 
-import { MMKV } from 'react-native-mmkv'
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { useEffect } from "react"
 import { storage } from "@/utils/storage"
 

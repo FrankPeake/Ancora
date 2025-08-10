@@ -1,26 +1,27 @@
-import { useQuery } from "@tanstack/react-query"
-import { getRecipes } from "@/services/recipe_service"
-import RecipeListItem from "@/components/recipe_list_item"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { getFeed } from "@/services/follow_service"
+import FeedListItem from "@/components/feed_list_item"
 import {
-  View,
   Text,
   ActivityIndicator,
   FlatList,
-  Pressable,
 } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
-import Entypo from "@expo/vector-icons/Entypo"
-import { Link } from "expo-router"
 import { storage } from "@/utils/storage"
 
 const userString = storage.getString("user")
 const userObject = userString ? JSON.parse(userString) : null
 
-export default function MyRecipes() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["recipes"],
-    queryFn: () => getRecipes(storage.getString("user") ? JSON.parse(userObject).id : ""),
+export default function Feed() {
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["feed"],
+    queryFn: () => getFeed(storage.getString("user") ? userObject.id : ""),
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+    staleTime: 5 * 60 * 1000,
   })
+
   if (isLoading) {
     return <ActivityIndicator size={"large"} style={{ marginTop: "20%" }} />
   }
@@ -34,48 +35,23 @@ export default function MyRecipes() {
         }}
       >
         Error: {error.message}
-      </Text>
+      </Text> 
     )
+  } else {
+    console.log("Feed data: ", data)
   }
-
-  const recipe = data[0] // Display the first recipe as an example
 
   return (
     <SafeAreaView
-      style={{ flex: 1, alignItems: "center", marginHorizontal: 20 }}
+      style={{ flex: 1, alignItems: "center", marginHorizontal: 0 }}
     >
-      <Text
-        style={{
-          fontSize: 24,
-          fontWeight: "bold",
-          marginBottom: 20,
-          color: "#FF8C00",
-        }}
-      >
-        Recipes
-      </Text>
-      <FlatList
+        <FlatList
         data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <RecipeListItem recipeItem={item} />}
+        keyExtractor={(item) => item.recipe_id}
+        renderItem={({ item }) => <FeedListItem feedItem={item} />}
         showsVerticalScrollIndicator={false}
       />
-      <Link href="/create_update_recipe" asChild>
-        <Pressable
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 5,
-            marginTop: 10,
-          }}
-        >
-          <Entypo name="circle-with-plus" size={24} color="#FF8C00" />
-          <Text style={{ color: "#FF8C00", fontSize: 16, fontWeight: "600" }}>
-            Add Recipe
-          </Text>
-        </Pressable>
-      </Link>
-      <Text style={{ marginTop: 20 }}>Total Recipes: {data.length}</Text>
+      
     </SafeAreaView>
   )
 }

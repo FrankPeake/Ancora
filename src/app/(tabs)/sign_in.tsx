@@ -1,9 +1,8 @@
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-native"
 import CustomButton from "@/components/custom_buttom"
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { GoogleSignin, isSuccessResponse, isErrorWithCode, statusCodes} from "@react-native-google-signin/google-signin"
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {AuthContext} from '../AuthContext';
+
 import { useQuery } from "@tanstack/react-query"
 import { getUserById } from "@/services/user_service"
 import { storage } from "@/utils/storage"

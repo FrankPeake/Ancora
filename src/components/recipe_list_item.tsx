@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 import { Recipe } from "@/types/recipe_types"
@@ -9,11 +9,9 @@ type RecipeListItemProps = {
 }
 
 export default function RecipeListItem({ recipeItem }: RecipeListItemProps) {
-  const [isCompleted, setIsCompleted] = useState<boolean>(true)
   return (
     <Link href={`view_recipe/?id=${recipeItem.id}`} asChild>
       <TouchableOpacity
-        onPress={() => setIsCompleted((currentState) => !currentState)}
         style={{
           padding: 20,
           backgroundColor: "#f9f9f9",
@@ -25,10 +23,6 @@ export default function RecipeListItem({ recipeItem }: RecipeListItemProps) {
           paddingBottom: 10,
         }}
       >
-        {/* {isCompleted
-                    ? <MaterialCommunityIcons name="circle-slice-8" size={22} color="#FF8C00" style={{ alignSelf: 'flex-start' }} />
-                    : <MaterialCommunityIcons name="checkbox-blank-circle-outline" size={22} color="grey" style={{ alignSelf: 'flex-start' }} />
-                } */}
         <View style={{ gap: 5 }}>
           <Text style={{ fontSize: 16, fontWeight: "bold" }}>
             {recipeItem.title}

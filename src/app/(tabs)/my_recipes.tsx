@@ -13,9 +13,10 @@ import Entypo from "@expo/vector-icons/Entypo"
 import { Link } from "expo-router"
 import { storage } from "@/utils/storage"
 
+const userString = storage.getString("user")
+const userObject = userString ? JSON.parse(userString) : null
 export default function MyRecipes() {
-  const userString = storage.getString("user")
-  const userObject = userString ? JSON.parse(userString) : null
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["recipes"],
     queryFn: () => getRecipes(storage.getString("user") ? userObject.id : ""),
@@ -35,9 +36,9 @@ export default function MyRecipes() {
         Error: {error.message}
       </Text>
     )
+  } else {
+    console.log("My Recipes data: ", data)
   }
-
-  const recipe = data[0] // Display the first recipe as an example
 
   return (
     <SafeAreaView

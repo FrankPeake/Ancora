@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   Pressable,
   StyleSheet,
@@ -7,9 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native"
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
 import { RecipeInstruction } from "@/types/recipe_types"
-import { Link } from "expo-router"
 
 type InstructionListItemProps = {
   index: number // Optional index for editing

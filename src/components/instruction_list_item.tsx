@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { RecipeInstruction } from "@/types/recipe_types"
-import { Link } from "expo-router"
 
 type InstructionListItemProps = {
   instructionItem: RecipeInstruction

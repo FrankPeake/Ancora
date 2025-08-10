@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Stack, Tabs, router, useLocalSearchParams } from "expo-router"
+import { Tabs, router, useLocalSearchParams } from "expo-router"
 import { useEffect, useState } from "react"
 import {
   View,
@@ -12,7 +12,6 @@ import {
 } from "react-native"
 import { deleteRecipe, getRecipeById } from "@/services/recipe_service"
 import { navigate } from "expo-router/build/global-state/routing"
-import { SafeAreaView } from "react-native-safe-area-context"
 import InstructionListItem from "@/components/instruction_list_item"
 
 export default function ViewRecipe() {

@@ -5,7 +5,7 @@ import {
   RecipeInstruction,
 } from "@/types/recipe_types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Stack, Tabs, router, useLocalSearchParams } from "expo-router"
+import { Tabs, router, useLocalSearchParams } from "expo-router"
 import { useCallback, useEffect, useState } from "react"
 import {
   View,
@@ -29,6 +29,9 @@ import {
 import IngredientListItem from "@/components/ingredient_list_item"
 import EditInstructionListItem from "@/components/edit_instruction_list_item"
 import { storage } from "@/utils/storage"
+
+const userString = storage.getString("user")
+const userObject = userString ? JSON.parse(userString) : null
 
 export default function CreateUpdateRecipe() {
   const { id } = useLocalSearchParams<{ id: string }>() // Get the recipe ID from the URL if it exists
@@ -83,7 +86,7 @@ export default function CreateUpdateRecipe() {
       let recipeData: InsertRecipe = {
         title,
         description,
-        user_id: 1, // Assuming a static user_id for now
+        user_id: userObject.id, // Assuming a static user_id for now
         prep_time: parseInt(prepTime),
         servings: parseInt(servings),
         cook_time: parseInt(cookTime),
